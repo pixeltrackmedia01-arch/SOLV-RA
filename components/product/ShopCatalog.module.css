@@ -1,0 +1,264 @@
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-areas:
+    "toolbar toolbar"
+    "filters results";
+  gap: var(--space-5) var(--space-7);
+}
+
+.toolbar {
+  grid-area: toolbar;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-block: 1px solid var(--line);
+}
+
+.count {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.count strong {
+  color: var(--ink);
+}
+
+.toolbar .filterToggle {
+  display: none;
+  min-height: 44px;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.sort select,
+.searchField input {
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: var(--text-sm);
+}
+
+.sort select {
+  padding-right: 2rem;
+}
+
+.filters {
+  grid-area: filters;
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+}
+
+.searchField {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.searchField label,
+.fieldset legend {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.fieldset legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+}
+
+.options {
+  display: grid;
+  gap: 2px;
+}
+
+.option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--paper-deep);
+}
+
+.option input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--ink);
+  flex: none;
+}
+
+.option:has(input:checked) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.option:has(input:checked) input {
+  accent-color: var(--paper);
+}
+
+.option:has(input:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.swatches {
+  display: inline-flex;
+}
+
+.swatches i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px var(--paper);
+}
+
+.swatches i + i {
+  margin-left: -4px;
+}
+
+.resetSide {
+  min-height: 44px;
+}
+
+.results {
+  grid-area: results;
+  min-width: 0;
+}
+
+.active {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 36px;
+  padding: 0 0.75rem;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.chip:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.clearAll {
+  min-height: 36px;
+  border: 0;
+  background: none;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-7) var(--space-5);
+}
+
+.empty {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  padding: var(--space-7);
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+}
+
+.empty h2 {
+  font-size: var(--text-2xl);
+}
+
+.empty p {
+  color: var(--muted);
+  margin-bottom: var(--space-2);
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "toolbar"
+      "filters"
+      "results";
+  }
+
+  .toolbar .filterToggle {
+    display: inline-flex;
+  }
+
+  .filters {
+    display: none;
+    padding: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .filtersOpen {
+    display: grid;
+  }
+
+  .count {
+    flex-basis: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-3);
+  }
+}
+
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

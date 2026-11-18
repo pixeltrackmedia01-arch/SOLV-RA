@@ -1,0 +1,38 @@
+.nav {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  color: var(--muted);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item + .item::before {
+  content: "/";
+  opacity: 0.6;
+}
+
+.item a {
+  color: var(--ink);
+  text-decoration: none;
+  padding-block: 0.6rem;
+}
+
+.item a:hover {
+  text-decoration: underline;
+}
+
+.item [aria-current] {
+  color: var(--muted);
+}

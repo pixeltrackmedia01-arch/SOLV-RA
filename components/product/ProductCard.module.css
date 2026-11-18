@@ -1,0 +1,157 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  background:
+    radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--tint) 34%, transparent) 0 46%, transparent 47%),
+    color-mix(in srgb, var(--tint) 16%, var(--paper));
+  overflow: hidden;
+  transition:
+    transform var(--dur-med) var(--ease-out),
+    box-shadow var(--dur-med) var(--ease-out);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 9%;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.isLifestyle .media {
+  background: var(--paper-deep);
+}
+
+.isLifestyle .image {
+  object-fit: cover;
+  padding: 0;
+}
+
+.badge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.reveal {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--tint);
+  color: var(--tint-ink);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+
+.card:hover .media,
+.card:focus-within .media {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.card:hover .image,
+.card:focus-within .image {
+  transform: scale(1.04);
+}
+
+.card:hover .reveal,
+.card:focus-within .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.body {
+  display: grid;
+  gap: 2px;
+}
+
+.name {
+  font-size: var(--text-xl);
+  line-height: 1.15;
+}
+
+.link {
+  text-decoration: none;
+}
+
+/* Stretch the link over the whole card for a large hit area. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.link:focus-visible::after {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.type {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.price {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Feature variant: larger type, taller media */
+.feature .media {
+  aspect-ratio: 4 / 5;
+}
+
+.feature .name {
+  font-size: var(--text-2xl);
+}
+
+.compact .name {
+  font-size: var(--text-lg);
+}
+
+@media (hover: none) {
+  .reveal {
+    display: none;
+  }
+}
