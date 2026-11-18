@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight } from "@/components/Icons";
 import { Sparkle } from "./Sunburst";
+import { useShopActions } from "@/lib/useShopActions";
 import styles from "./HeroSlider.module.css";
 
 export type HeroPiece = {
@@ -86,6 +87,7 @@ export function HeroSliderClient({ slides }: { slides: HeroSlide[] }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [announce, setAnnounce] = useState("");
+  const { addToCart } = useShopActions();
 
   const rootRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -529,16 +531,22 @@ export function HeroSliderClient({ slides }: { slides: HeroSlide[] }) {
             <span className={styles.counterLine} aria-hidden="true" />
             <span>{String(slides.length).padStart(2, "0")}</span>
           </p>
+          <p className={styles.name}>{s.title}</p>
           <p className={styles.meta}>
-            {s.title} <span className={styles.metaType}>{s.type}</span>
-            {s.price && <span className={styles.metaPrice}> · {s.price}</span>}
+            {s.type}
+            {s.price && <span className={styles.metaPrice}>{s.price}</span>}
           </p>
-          <Link href={s.href} className={styles.shop}>
-            Shop {s.title} <ArrowRight size={16} />
-          </Link>
+          <div className={styles.ctas}>
+            <Link href={s.href} className={styles.shop}>
+              Shop now <ArrowRight size={16} />
+            </Link>
+            <button type="button" className={`${styles.shop} ${styles.shopSolid}`} onClick={() => addToCart(s.id, 1)}>
+              Add to cart
+            </button>
+          </div>
         </div>
 
-        <button type="button" className={`${styles.arrow} ${styles.prev}`} onClick={prev} aria-label="Previous appliance" data-rise="1">
+        <button type="button" className={`${styles.arrow} ${styles.prev}`} onClick={prev} aria-label="Previous appliance" data-rise="1" data-magnetic>
           <svg viewBox="0 0 28 28" aria-hidden="true">
             <path d="M24 14H4M12 6l-8 8 8 8" />
           </svg>
@@ -560,7 +568,7 @@ export function HeroSliderClient({ slides }: { slides: HeroSlide[] }) {
               </svg>
             )}
           </button>
-          <button type="button" className={styles.arrow} onClick={next} aria-label="Next appliance">
+          <button type="button" className={styles.arrow} onClick={next} aria-label="Next appliance" data-magnetic>
             <svg viewBox="0 0 28 28" aria-hidden="true">
               <path d="M4 14h20M16 6l8 8-8 8" />
             </svg>

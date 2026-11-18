@@ -50,11 +50,16 @@
   margin-top: -4rem;
 }
 
+.heroClip {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
 .heroImage img {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 100%;
   object-fit: cover;
-  border-radius: var(--radius-lg);
 }
 
 .body {

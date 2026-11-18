@@ -4,6 +4,7 @@ import Link from "next/link";
 import { site } from "@/config/site";
 import { articles } from "@/data/journal";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { SplitText } from "@/components/SplitText";
 import styles from "./journal.module.css";
 
 export const metadata: Metadata = {
@@ -20,8 +21,10 @@ export default function JournalPage() {
         <Breadcrumbs crumbs={[{ name: "Home", href: "/" }, { name: "Journal", href: "/journal" }]} />
       </div>
       <header className={styles.head}>
-        <h1 className={styles.title}>
-          The <span className="italic">Journal</span>
+        <h1 className={styles.title} data-split>
+          <SplitText>
+            The <span className="italic">Journal</span>
+          </SplitText>
         </h1>
         <p className="lede">Notes on color, design and the small rituals that happen around the counter.</p>
         <p className={styles.sampleNote}>

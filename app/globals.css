@@ -436,3 +436,81 @@ body:has(dialog[open]) {
 main:focus {
   outline: none;
 }
+
+/* ── Motion: staggered reveals ─────────────────────────────── */
+.js [data-reveal] {
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Clip reveal for imagery */
+.js [data-reveal="clip"] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1200ms var(--ease-in-out);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.js [data-reveal="clip"].is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Split headline words */
+.split-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.split-w > span {
+  display: inline-block;
+}
+
+.js [data-split] .split-w > span {
+  transform: translateY(110%);
+  transition: transform 1000ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+
+.js [data-split].is-visible .split-w > span {
+  transform: none;
+}
+
+/* Parallax: pair with an overflow-hidden parent */
+[data-parallax] {
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.12);
+  will-change: transform;
+}
+
+/* Tilt cards */
+[data-tilt] {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 500ms var(--ease-out);
+  transform-style: preserve-3d;
+}
+
+[data-tilt]:hover {
+  transition-duration: 120ms;
+}
+
+/* Magnetic */
+[data-magnetic] {
+  transition: translate 400ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal="clip"] {
+    clip-path: none;
+  }
+  .js [data-split] .split-w > span {
+    transform: none;
+  }
+  [data-parallax] {
+    transform: none;
+  }
+  [data-tilt] {
+    transform: none;
+  }
+}

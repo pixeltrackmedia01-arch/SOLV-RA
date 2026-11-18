@@ -5,7 +5,7 @@ import { articles } from "@/data/journal";
 import { infoPages } from "@/data/info";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["/", "/shop", "/about", "/journal"].map((path) => ({
+  const staticRoutes = ["/", "/shop", "/about", "/journal", "/faq"].map((path) => ({
     url: absoluteUrl(path),
     changeFrequency: "weekly" as const,
     priority: path === "/" ? 1 : 0.8,

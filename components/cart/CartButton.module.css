@@ -40,3 +40,9 @@
     transform: scale(1);
   }
 }
+
+@media (max-width: 420px) {
+  .hideSm {
+    display: none;
+  }
+}

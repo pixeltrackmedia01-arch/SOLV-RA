@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { categories, cutout, getProduct } from "@/data/products";
+import { brandName } from "@/config/site";
+import { categories, cutout, getProduct, lifestyle, products } from "@/data/products";
+import { formatPrice } from "@/lib/format";
 import { ChevronDown } from "@/components/Icons";
 import styles from "./Header.module.css";
 
@@ -56,29 +58,61 @@ export function ShopMenu() {
         Shop <ChevronDown size={16} className={styles.chev} />
       </button>
       <div id={panelId} className={styles.menuPanel} hidden={!open}>
-        <ul className={styles.menuList}>
+        <div className={styles.mega}>
           {categories.map((c) => {
-            const p = getProduct(c.heroProductId)!;
-            const img = cutout(p);
+            const items = products.filter((p) => p.category === c.slug);
             return (
-              <li key={c.slug}>
-                <Link href={`/shop?category=${c.slug}`} className={styles.menuItem}>
-                  <span className={styles.menuThumb} style={{ background: p.color.hex }}>
-                    <Image src={img.src} alt="" width={64} height={64} sizes="64px" />
-                  </span>
-                  <span>
-                    <span className={styles.menuName}>{c.name}</span>
-                    <span className={styles.menuBlurb}>{c.blurb}</span>
-                  </span>
+              <div key={c.slug} className={styles.megaCol}>
+                <Link href={`/shop?category=${c.slug}`} className={styles.megaHead}>
+                  {c.name} <span className={styles.megaCount}>{items.length}</span>
                 </Link>
-              </li>
+                <ul className={styles.megaList}>
+                  {items.map((p) => (
+                    <li key={p.id}>
+                      <Link href={`/shop/${p.slug}`} className={styles.megaItem}>
+                        <span className={styles.megaThumb} style={{ background: p.color.hex }}>
+                          <Image src={cutout(p).src} alt="" width={56} height={56} sizes="56px" />
+                        </span>
+                        <span className={styles.megaText}>
+                          <span className={styles.megaName}>{brandName(p.name)}</span>
+                          <span className={styles.megaType}>
+                            {p.type} · {p.color.name}
+                          </span>
+                        </span>
+                        <span className={styles.megaPrice}>{formatPrice(p.price)}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             );
           })}
-        </ul>
-        <Link href="/shop" className={`text-link ${styles.menuAll}`}>
-          Shop all appliances
-        </Link>
+          <FeaturedTile />
+        </div>
+        <div className={styles.megaFoot}>
+          <Link href="/shop" className="text-link">
+            Shop all {products.length} appliances
+          </Link>
+          <Link href="/wishlist" className="text-link">
+            Your wishlist
+          </Link>
+        </div>
       </div>
     </div>
+  );
+}
+
+function FeaturedTile() {
+  const p = getProduct("blue-kettle")!;
+  const img = lifestyle(p);
+  return (
+    <Link href={`/shop/${p.slug}`} className={styles.megaFeature}>
+      <span className={styles.megaFeatureImg}>
+        <Image src={img.src} alt="" width={400} height={400} sizes="240px" />
+      </span>
+      <span className={styles.megaFeatureTag}>{p.badge ?? "Featured"}</span>
+      <span className={styles.megaName}>{brandName(p.name)}</span>
+      <span className={styles.megaType}>{p.type}</span>
+    </Link>
   );
 }

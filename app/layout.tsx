@@ -4,9 +4,10 @@ import { site } from "@/config/site";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { CartProvider } from "@/components/cart/CartContext";
+import { Providers } from "@/components/Providers";
+import { BackToTop } from "@/components/BackToTop";
 import { CartDrawer } from "@/components/cart/CartDrawer";
-import { RevealObserver } from "@/components/RevealObserver";
+import { MotionEffects } from "@/components/MotionEffects";
 import { JsonLd } from "@/components/JsonLd";
 import { organizationLd, websiteLd } from "@/lib/jsonld";
 import "./globals.css";
@@ -68,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <CartProvider>
+        <Providers>
           <AnnouncementBar />
           <Header />
           <main id="main" tabIndex={-1}>
@@ -76,8 +77,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <Footer />
           <CartDrawer />
-        </CartProvider>
-        <RevealObserver />
+          <BackToTop />
+        </Providers>
+        <MotionEffects />
         <JsonLd data={[organizationLd(), websiteLd()]} />
       </body>
     </html>

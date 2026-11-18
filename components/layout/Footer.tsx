@@ -54,6 +54,12 @@ export function Footer() {
             <li>
               <Link href="/info/contact">Contact</Link>
             </li>
+            <li>
+              <Link href="/faq">FAQ</Link>
+            </li>
+            <li>
+              <Link href="/wishlist">Wishlist</Link>
+            </li>
           </ul>
         </nav>
 

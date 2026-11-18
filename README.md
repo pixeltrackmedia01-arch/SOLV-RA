@@ -35,6 +35,14 @@ A full-screen colour slider. Each slide floods the screen with one product colou
 
 Controls: tabs, arrows, swipe, ←/→ keys, and a pause button. Autoplay runs every 4.8 s. It pauses for 6 s after any interaction, while keyboard focus is inside the hero, or when the hero is off screen. With reduced motion, slides swap instantly and nothing bobs.
 
+## Store features
+
+- **Shopping:** mega menu listing every product, a wishlist (heart on cards, header count, `/wishlist`), quick add on cards, toast notifications, cart suggestions, and the "Complete the set" bundle.
+- **Product pages:** recently viewed, a sticky add-to-cart bar, share, accordions, and a colour-flood image slider that uses the same panel wipe as the hero.
+- **Shop:** category-aware collection banners, plus category, colour, price and search filters with sorting.
+- **Site-wide:** FAQ page (with FAQPage structured data), rotating announcement bar, back-to-top button, and a reading progress bar on articles.
+- **Motion:** split-word headline reveals, clip-path image reveals, parallax, tilt and magnetic hover, and a scroll-reactive marquee (`components/MotionEffects.tsx`). All motion is disabled under reduced motion.
+
 ## Product images
 
 The images come from the supplied Google Drive folder. They were converted to WebP and resized.
@@ -42,6 +50,8 @@ The images come from the supplied Google Drive folder. They were converted to We
 - `public/images/products/<id>.webp`: transparent cut-outs, 1100 × 1100
 - `public/images/lifestyle/<id>.webp`: countertop scenes, 1400 × 1400
 - `public/images/lifestyle/countertop-collection.webp`: full-range group shot, 1536 × 1024
+- `public/images/inuse/<id>.webp`: people-using-it photos (4:5), used in galleries, category tiles, promos and "Shop the look"
+- `public/images/banners/*.webp`: collection banners composed from the product cut-outs
 - `public/og.jpg`: default social-share image, 1200 × 630
 
 To replace a photo, overwrite the file and keep the same name and aspect ratio. Or change the `images` entry for that product in `data/products.ts`. All images go through `next/image`.

@@ -9,6 +9,8 @@ import { readableInk } from "@/lib/color";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ArrowRight } from "@/components/Icons";
+import { ReadingProgress } from "@/components/ReadingProgress";
+import { SplitText } from "@/components/SplitText";
 import styles from "./article.module.css";
 
 type Params = Promise<{ slug: string }>;
@@ -45,6 +47,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
 
   return (
     <article>
+      <ReadingProgress color={a.accent} />
       <header
         className={styles.header}
         style={{ "--accent": a.accent, "--accent-ink": readableInk(a.accent) } as React.CSSProperties}
@@ -60,7 +63,9 @@ export default async function ArticlePage({ params }: { params: Params }) {
           <p className={styles.meta}>
             {a.category} · {a.readingMinutes} min read
           </p>
-          <h1 className={styles.title}>{a.title}</h1>
+          <h1 className={styles.title} data-split>
+            <SplitText>{a.title}</SplitText>
+          </h1>
           <p className={styles.dek}>{a.dek}</p>
           {a.isSample && (
             <p className={styles.sample}>Sample article — editable starter content.</p>
@@ -69,7 +74,9 @@ export default async function ArticlePage({ params }: { params: Params }) {
       </header>
 
       <div className={`container ${styles.heroImage}`}>
+        <div className={styles.heroClip} data-reveal="clip">
         <Image
+          data-parallax="0.06"
           src={a.image.src}
           alt={a.image.alt}
           width={a.image.width}
@@ -77,6 +84,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
           sizes="(max-width: 1000px) 100vw, 1000px"
           priority
         />
+        </div>
       </div>
 
       <div className={`container ${styles.body}`}>

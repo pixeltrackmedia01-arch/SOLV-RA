@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { articles } from "@/data/journal";
 import { ArrowRight } from "@/components/Icons";
+import { SplitText } from "@/components/SplitText";
 import styles from "./Home.module.css";
 
 export function JournalPreview() {
@@ -11,8 +12,8 @@ export function JournalPreview() {
       <div className={styles.sectionHead}>
         <div>
           <p className="eyebrow">From the journal</p>
-          <h2 id="journal-title" className={styles.h2}>
-            Notes on color & everyday rituals.
+          <h2 id="journal-title" className={styles.h2} data-split>
+            <SplitText>Notes on color & everyday rituals.</SplitText>
           </h2>
         </div>
         <Link href="/journal" className="text-link">
@@ -22,7 +23,7 @@ export function JournalPreview() {
       <div className={styles.journalGrid}>
         <article className={styles.journalLead} data-reveal>
           <div className={styles.journalImage}>
-            <Image src={lead.image.src} alt={lead.image.alt} width={lead.image.width} height={lead.image.height} sizes="(max-width: 860px) 100vw, 55vw" />
+            <Image data-parallax="0.06" src={lead.image.src} alt={lead.image.alt} width={lead.image.width} height={lead.image.height} sizes="(max-width: 860px) 100vw, 55vw" />
           </div>
           <p className={styles.journalMeta}>
             {lead.category} · {lead.readingMinutes} min read{lead.isSample && " · Sample article"}

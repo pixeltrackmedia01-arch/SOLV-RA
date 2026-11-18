@@ -1,6 +1,7 @@
 .marquee {
   overflow: hidden;
-  border-bottom: 1px solid var(--line);
+  margin-top: var(--section-y);
+  border-block: 1px solid var(--line);
   background: var(--paper);
   padding-block: 1.4rem;
 }
@@ -22,6 +23,8 @@
 }
 
 .row li {
+  transform: skewX(var(--scroll-skew, 0deg));
+  transition: transform 200ms linear;
   display: inline-flex;
   align-items: center;
   gap: 1.1rem;

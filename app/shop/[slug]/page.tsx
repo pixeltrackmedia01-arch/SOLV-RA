@@ -2,15 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { brandName, site } from "@/config/site";
-import { getCategory, getProduct, getProducts, lifestyle, products } from "@/data/products";
+import { cutout, getCategory, getProduct, getProducts, lifestyle, products } from "@/data/products";
 import { formatPrice } from "@/lib/format";
 import { productLd } from "@/lib/jsonld";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { AddToCart } from "@/components/product/AddToCart";
 import { ProductCard } from "@/components/product/ProductCard";
-import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductSlider } from "@/components/product/ProductSlider";
 import { CheckIcon } from "@/components/Icons";
+import { ProductActions } from "@/components/product/ProductActions";
+import { StickyBuyBar } from "@/components/product/StickyBuyBar";
+import { CompleteTheSet } from "@/components/product/CompleteTheSet";
+import { RecentlyViewed } from "@/components/product/RecentlyViewed";
 import styles from "./product.module.css";
 
 type Params = Promise<{ slug: string }>;
@@ -68,7 +72,14 @@ export default async function ProductPage({ params }: { params: Params }) {
         </div>
 
         <div className={styles.layout} style={{ "--tint": p.color.hex } as React.CSSProperties}>
-          <ProductGallery images={p.images} tint={p.color.hex} name={title} />
+          <ProductSlider
+            images={p.images}
+            word={p.name}
+            color={p.color.hex}
+            ink={p.color.ink}
+            name={title}
+            companions={getProducts(p.relatedIds).map((r) => ({ src: cutout(r).src }))}
+          />
 
           <div className={styles.info}>
             {p.badge && <p className={styles.badge}>{p.badge}</p>}
@@ -99,6 +110,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             <p className={styles.short}>{p.shortDescription}</p>
 
+            <div id="buy-box">
             <AddToCart
               productId={p.id}
               title={title}
@@ -106,6 +118,8 @@ export default async function ProductPage({ params }: { params: Params }) {
               color={p.color.hex}
               ink={p.color.ink}
             />
+            </div>
+            <ProductActions id={p.id} title={title} />
 
             {variant && p.variantNote && (
               <Link href={`/shop/${variant.slug}`} className={styles.variant}>
@@ -114,54 +128,84 @@ export default async function ProductPage({ params }: { params: Params }) {
               </Link>
             )}
 
+            <div className={styles.accordion}>
+              <details open>
+                <summary>Highlights</summary>
+                <ul className={styles.features}>
+                  {p.features.map((f) => (
+                    <li key={f}>
+                      <CheckIcon size={18} /> {f}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+              <details>
+                <summary>About {title}</summary>
+                <p className={styles.about}>{p.description}</p>
+              </details>
+              <details>
+                <summary>Specifications</summary>
+                <dl className={styles.specs}>
+                  {p.specs?.map((s) => (
+                    <div key={s.label}>
+                      <dt>{s.label}</dt>
+                      <dd>{s.value}</dd>
+                    </div>
+                  ))}
+                  <div>
+                    <dt>Color</dt>
+                    <dd>
+                      {p.color.name} ({p.color.hex})
+                    </dd>
+                  </div>
+                </dl>
+              </details>
+              {p.inTheBox && (
+                <details>
+                  <summary>In the box</summary>
+                  <ul className={styles.box}>
+                    {p.inTheBox.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+              <details>
+                <summary>Delivery & returns</summary>
+                <p className={styles.about}>
+                  Delivery and returns terms are being finalized ahead of launch. See our{" "}
+                  <Link href="/info/shipping">shipping</Link> and <Link href="/info/returns">returns</Link> pages for
+                  updates.
+                </p>
+              </details>
+            </div>
+
+            <div className={styles.palette}>
+              <p className={styles.paletteLabel}>More from the palette</p>
+              <ul>
+                {products.map((o) => (
+                  <li key={o.id}>
+                    <Link
+                      href={`/shop/${o.slug}`}
+                      className={styles.paletteDot}
+                      style={{ background: o.color.hex }}
+                      aria-current={o.id === p.id ? "page" : undefined}
+                      title={`${brandName(o.name)} — ${o.color.name}`}
+                    >
+                      <span className="visually-hidden">
+                        {brandName(o.name)}, {o.type} in {o.color.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {site.prelaunchNotice && <p className={styles.notice}>{site.prelaunchNotice}</p>}
           </div>
         </div>
 
-        <section className={styles.details} aria-labelledby="details-title">
-          <h2 id="details-title" className="visually-hidden">
-            Product details
-          </h2>
-          <div className={styles.about}>
-            <h3>About {title}</h3>
-            <p>{p.description}</p>
-          </div>
-          <div>
-            <h3>Highlights</h3>
-            <ul className={styles.features}>
-              {p.features.map((f) => (
-                <li key={f}>
-                  <CheckIcon size={18} /> {f}
-                </li>
-              ))}
-            </ul>
-          </div>
-          {(p.specs?.length || p.inTheBox?.length) && (
-            <div>
-              <h3>Specifications</h3>
-              <dl className={styles.specs}>
-                {p.specs?.map((s) => (
-                  <div key={s.label}>
-                    <dt>{s.label}</dt>
-                    <dd>{s.value}</dd>
-                  </div>
-                ))}
-                <div>
-                  <dt>Color</dt>
-                  <dd>
-                    {p.color.name} ({p.color.hex})
-                  </dd>
-                </div>
-                {p.inTheBox && (
-                  <div>
-                    <dt>In the box</dt>
-                    <dd>{p.inTheBox.join(", ")}</dd>
-                  </div>
-                )}
-              </dl>
-            </div>
-          )}
-        </section>
+        <CompleteTheSet ids={[p.id, ...p.relatedIds.slice(0, 2)]} />
       </div>
 
       {related.length > 0 && (
@@ -169,9 +213,9 @@ export default async function ProductPage({ params }: { params: Params }) {
           <h2 id="related-title" className={styles.relatedTitle}>
             Pairs nicely with
           </h2>
-          <ul className={styles.relatedGrid}>
+          <ul className={styles.relatedGrid} data-stagger>
             {related.map((r) => (
-              <li key={r.id}>
+              <li key={r.id} data-reveal>
                 <ProductCard product={r} sizes="(max-width: 860px) 50vw, 30vw" />
               </li>
             ))}
@@ -179,6 +223,17 @@ export default async function ProductPage({ params }: { params: Params }) {
         </section>
       )}
 
+      <RecentlyViewed currentId={p.id} />
+
+      <StickyBuyBar
+        id={p.id}
+        title={title}
+        price={formatPrice(p.price)}
+        img={cutout(p).src}
+        tint={p.color.hex}
+        ink={p.color.ink}
+        targetId="buy-box"
+      />
       <JsonLd data={productLd(p)} />
     </>
   );

@@ -30,8 +30,8 @@ export interface ProductImage {
   alt: string;
   width: number;
   height: number;
-  /** "cutout" = transparent product shot; "lifestyle" = in-scene photo. */
-  kind: "cutout" | "lifestyle";
+  /** "cutout" = transparent product shot; "lifestyle" = countertop scene; "inuse" = people using it. */
+  kind: "cutout" | "lifestyle" | "inuse";
 }
 
 export interface ProductSpec {
@@ -80,7 +80,25 @@ export interface Product {
 const C = 1100; // cut-out size
 const L = 1400; // lifestyle size
 
+/** People-in-the-kitchen photos (4:5), keyed by image file name. */
+const INUSE_ALT: Record<string, string> = {
+  "pop-toaster": "A woman spreads jam at a sunny kitchen counter beside a poppy-red Crab Pop toaster and fresh toast",
+  "sunny-kettle": "A man pours chai from a marigold-yellow kettle into patterned cups on a wooden tray",
+  "splash-blender": "A smiling woman drops strawberries into a teal Crab Splash blender filled with fruit",
+  "whisk-stand-mixer": "A father and daughter knead dough beside a pistachio-green Crab Whisk stand mixer",
+  "brew-coffee-maker": "A woman reads by a rainy window next to a powder-blue Crab Brew coffee maker",
+  "crisp-air-fryer": "A couple prepares dinner in a cosy kitchen with a deep-teal Crab Crisp air fryer",
+  "whip-hand-mixer": "A woman pipes pink frosting onto cupcakes beside a bubblegum-pink Crab Whip hand mixer",
+  "rice-cooker": "A woman serves rice from a tangerine Crab Rice cooker while her family sits at the table",
+  "blue-kettle": "A couple shares tea on a sunny balcony beside a cobalt-blue Crab kettle",
+};
+
+export const INUSE_SIZE = { width: 1122, height: 1402 };
+
 function imgs(file: string, product: string, color: string, lifestyleAlt: string): ProductImage[] {
+  const inuse: ProductImage[] = INUSE_ALT[file]
+    ? [{ src: `/images/inuse/${file}.webp`, alt: INUSE_ALT[file], ...INUSE_SIZE, kind: "inuse" }]
+    : [];
   return [
     {
       src: `/images/products/${file}.webp`,
@@ -96,6 +114,7 @@ function imgs(file: string, product: string, color: string, lifestyleAlt: string
       height: L,
       kind: "lifestyle",
     },
+    ...inuse,
   ];
 }
 
@@ -518,6 +537,15 @@ export const colorFamilies: { slug: ColorFamily; name: string; swatches: string[
   { slug: "soft", name: "Soft & neutral", swatches: ["#A8BE78", "#F5EBDD"] },
 ];
 
+/** Shop price filter bands (whole INR). */
+export const priceBands = [
+  { slug: "under-3000", label: "Under ₹3,000", min: 0, max: 2999 },
+  { slug: "3000-5000", label: "₹3,000 – ₹5,000", min: 3000, max: 5000 },
+  { slug: "5000-10000", label: "₹5,000 – ₹10,000", min: 5001, max: 10000 },
+  { slug: "over-10000", label: "Over ₹10,000", min: 10001, max: Infinity },
+] as const;
+export type PriceBand = (typeof priceBands)[number]["slug"];
+
 /** Order used when sorting by "Featured". */
 export const featuredIds = ["pop-toaster", "sunny-kettle", "whisk-stand-mixer", "blue-kettle"];
 
@@ -539,4 +567,9 @@ export function cutout(p: Product) {
 
 export function lifestyle(p: Product) {
   return p.images.find((i) => i.kind === "lifestyle") ?? p.images[0];
+}
+
+/** Photo of the appliance in use, falling back to the countertop scene. */
+export function inUse(p: Product) {
+  return p.images.find((i) => i.kind === "inuse") ?? lifestyle(p);
 }

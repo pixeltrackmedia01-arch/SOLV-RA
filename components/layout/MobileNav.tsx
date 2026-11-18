@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { categories } from "@/data/products";
+import Image from "next/image";
+import { brandName } from "@/config/site";
+import { categories, cutout, products } from "@/data/products";
+import { formatPrice } from "@/lib/format";
 import { useModalDialog } from "@/lib/useModalDialog";
 import { CloseIcon, MenuIcon } from "@/components/Icons";
 import { Wordmark } from "@/components/Wordmark";
@@ -39,20 +42,33 @@ export function MobileNav() {
         </div>
         <nav aria-label="Mobile">
           <p className={styles.mobileHeading}>Shop</p>
-          <ul className={styles.mobileList}>
-            <li>
-              <Link href="/shop" onClick={close}>
-                All appliances
-              </Link>
-            </li>
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/shop?category=${c.slug}`} onClick={close}>
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <Link href="/shop" onClick={close} className={styles.mobileAll}>
+            All {products.length} appliances
+          </Link>
+          {categories.map((c) => (
+            <details key={c.slug} className={styles.mobileGroup}>
+              <summary>{c.name}</summary>
+              <ul className={styles.mobileItems}>
+                {products
+                  .filter((p) => p.category === c.slug)
+                  .map((p) => (
+                    <li key={p.id}>
+                      <Link href={`/shop/${p.slug}`} onClick={close}>
+                        <span className={styles.megaThumb} style={{ background: p.color.hex }}>
+                          <Image src={cutout(p).src} alt="" width={48} height={48} sizes="48px" />
+                        </span>
+                        <span className={styles.megaText}>
+                          <span className={styles.megaName}>{brandName(p.name)}</span>
+                          <span className={styles.megaType}>
+                            {p.type} · {formatPrice(p.price)}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </details>
+          ))}
           <ul className={`${styles.mobileList} ${styles.mobileListMain}`}>
             <li>
               <Link href="/about" onClick={close}>
@@ -62,6 +78,16 @@ export function MobileNav() {
             <li>
               <Link href="/journal" onClick={close}>
                 Journal
+              </Link>
+            </li>
+            <li>
+              <Link href="/wishlist" onClick={close}>
+                Wishlist
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" onClick={close}>
+                FAQ
               </Link>
             </li>
           </ul>

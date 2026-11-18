@@ -530,3 +530,77 @@
     padding-inline: 0;
   }
 }
+
+/* ── Motion helpers ── */
+.mediaClip {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.mediaClip img {
+  border-radius: 0 !important;
+}
+
+.spotlightMedia.mediaClip {
+  border-radius: var(--radius-arch);
+}
+
+.journalImage img[data-parallax] {
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.12);
+}
+
+.journalLead:hover .journalImage img[data-parallax] {
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.17);
+}
+
+.shelfLink {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.shine {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.28), transparent 45%);
+  opacity: 0;
+  transition: opacity var(--dur-med);
+}
+
+.shelfLink:hover .shine {
+  opacity: 1;
+}
+
+/* Extra hover detail */
+.journalNum {
+  transition: transform var(--dur-med) var(--ease-out);
+}
+
+.journalList li:hover .journalNum {
+  transform: scale(1.12) rotate(-8deg);
+}
+
+.principles li {
+  transition: transform var(--dur-med) var(--ease-out);
+}
+
+.principles li:hover {
+  transform: translateY(-6px);
+}
+
+.principles li:hover .principleNum {
+  letter-spacing: 0.3em;
+}
+
+.principleNum {
+  transition: letter-spacing var(--dur-med) var(--ease-out);
+}
+
+.featuredNote {
+  transition: background-color var(--dur-med);
+}
+
+.featuredNote:hover {
+  background: var(--paper-deep);
+}

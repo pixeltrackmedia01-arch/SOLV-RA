@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 240px 1fr;
   grid-template-areas:
+    "banner banner"
     "toolbar toolbar"
     "filters results";
   gap: var(--space-5) var(--space-7);
@@ -226,6 +227,7 @@
   .layout {
     grid-template-columns: 1fr;
     grid-template-areas:
+      "banner"
       "toolbar"
       "filters"
       "results";
@@ -260,5 +262,110 @@
 @media (max-width: 360px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.optCount {
+  margin-left: auto;
+  font-size: var(--text-xs);
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Results animate in whenever the filter changes */
+.gridItem {
+  animation: card-in 600ms var(--ease-out) both;
+  animation-delay: calc(min(var(--i, 0), 8) * 50ms);
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* Collection banner */
+.banner {
+  grid-area: banner;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(220px, 28vw, 400px);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  isolation: isolate;
+}
+
+.bannerImg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  animation: banner-in 900ms var(--ease-out);
+}
+
+@keyframes banner-in {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+.bannerText {
+  display: grid;
+  gap: var(--space-2);
+  max-width: min(44%, 520px);
+  padding: var(--space-6) clamp(1.25rem, 4vw, 3.5rem);
+  animation: banner-text 900ms var(--ease-out) 100ms both;
+}
+
+@keyframes banner-text {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.bannerEyebrow {
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.bannerTitle {
+  font-size: var(--text-4xl);
+  line-height: 0.95;
+}
+
+.bannerBlurb {
+  font-size: var(--text-lg);
+  line-height: 1.45;
+}
+
+@media (max-width: 700px) {
+  .banner {
+    align-items: flex-start;
+    min-height: 340px;
+  }
+  .bannerImg {
+    object-position: 80% bottom;
+    height: 62%;
+    top: auto;
+    bottom: 0;
+  }
+  .bannerText {
+    max-width: none;
+    padding: var(--space-5);
+  }
+  .bannerTitle {
+    font-size: var(--text-3xl);
+  }
+  .bannerBlurb {
+    font-size: var(--text-base);
   }
 }

@@ -5,6 +5,7 @@ import { brandName, site } from "@/config/site";
 import { cutout, products } from "@/data/products";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArrowRight } from "@/components/Icons";
+import { SplitText } from "@/components/SplitText";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = {
@@ -42,8 +43,10 @@ export default function AboutPage() {
         </div>
         <header className={styles.hero}>
           <p className="eyebrow">Our story</p>
-          <h1 className={styles.title}>
-            Useful things, made <span className="italic">cheerful.</span>
+          <h1 className={styles.title} data-split>
+            <SplitText>
+              Useful things, made <span className="italic">cheerful.</span>
+            </SplitText>
           </h1>
           <p className="lede">
             {site.name} makes everyday kitchen appliances that feel expressive and worth keeping on the
@@ -53,7 +56,9 @@ export default function AboutPage() {
       </div>
 
       <figure className={styles.wide}>
+        <div className={styles.wideClip} data-reveal="clip">
         <Image
+          data-parallax="0.1"
           src="/images/lifestyle/countertop-collection.webp"
           alt="The Crab Appliances range lined up across a sunny kitchen counter"
           width={1536}
@@ -61,6 +66,7 @@ export default function AboutPage() {
           sizes="100vw"
           priority
         />
+        </div>
       </figure>
 
       <div className="container">
@@ -90,7 +96,7 @@ export default function AboutPage() {
           <h2 id="values" className={styles.h2}>
             What guides us
           </h2>
-          <ol className={styles.values}>
+          <ol className={styles.values} data-stagger>
             {values.map((v, i) => (
               <li key={v.title} data-reveal>
                 <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
@@ -105,10 +111,10 @@ export default function AboutPage() {
           <h2 id="palette" className={styles.h2}>
             The palette
           </h2>
-          <ul className={styles.palette}>
+          <ul className={styles.palette} data-stagger>
             {products.map((p) => (
-              <li key={p.id} style={{ background: p.color.hex, color: p.color.ink }}>
-                <Link href={`/shop/${p.slug}`}>
+              <li key={p.id} style={{ background: p.color.hex, color: p.color.ink }} data-reveal>
+                <Link href={`/shop/${p.slug}`} data-tilt>
                   <Image src={cutout(p).src} alt="" width={300} height={300} sizes="(max-width: 600px) 40vw, 18vw" />
                   <span className={styles.paletteName}>{p.color.name}</span>
                   <span className={styles.paletteMeta}>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/Wordmark";
 import { CartButton } from "@/components/cart/CartButton";
+import { WishlistButton } from "@/components/wishlist/WishlistButton";
 import { ShopMenu } from "./ShopMenu";
 import { MobileNav } from "./MobileNav";
 import { SearchDialog } from "./SearchDialog";
@@ -34,6 +35,7 @@ export function Header() {
         </nav>
         <div className={styles.actions}>
           <SearchDialog />
+          <WishlistButton />
           <CartButton />
         </div>
       </div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/config/site";
 import { ArrowRight } from "@/components/Icons";
+import { SplitText } from "@/components/SplitText";
 import styles from "./Home.module.css";
 
 const principles = [
@@ -25,8 +26,10 @@ export function BrandStory() {
       <div className={styles.brandGrid}>
         <div className={styles.brandCopy} data-reveal>
           <p className="eyebrow">Why {site.shortName}</p>
-          <h2 id="brand-title" className={styles.brandStatement}>
-            The things you use every day should be a <span className="italic">pleasure</span> to look at.
+          <h2 id="brand-title" className={styles.brandStatement} data-split>
+            <SplitText>
+              The things you use every day should be a <span className="italic">pleasure</span> to look at.
+            </SplitText>
           </h2>
           <p className="lede">
             We borrow the warmth of mid-century kitchens — rounded corners, ribbed sides, chrome trim —
@@ -36,18 +39,21 @@ export function BrandStory() {
             Read our story <ArrowRight size={18} />
           </Link>
         </div>
-        <figure className={styles.brandFigure} data-reveal>
+        <figure className={styles.brandFigure}>
+          <div className={styles.mediaClip} data-reveal="clip">
           <Image
+            data-parallax="0.08"
             src="/images/lifestyle/countertop-collection.webp"
             alt="The full Crab Appliances range in ten colors lined up on a sunlit cream kitchen counter"
             width={1536}
             height={1024}
             sizes="(max-width: 860px) 100vw, 55vw"
           />
+          </div>
           <figcaption>The full range, from Poppy Red to Cobalt Blue.</figcaption>
         </figure>
       </div>
-      <ul className={styles.principles}>
+      <ul className={styles.principles} data-stagger>
         {principles.map((p, i) => (
           <li key={p.title} data-reveal>
             <span className={styles.principleNum} aria-hidden="true">

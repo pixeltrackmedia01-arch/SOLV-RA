@@ -13,3 +13,7 @@
 .title :global(.italic) {
   color: var(--crab);
 }
+
+.crumbs {
+  padding-block: var(--space-4);
+}

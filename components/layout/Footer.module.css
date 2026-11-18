@@ -57,9 +57,18 @@
   font-size: var(--text-sm);
 }
 
+.col a,
+.legal a {
+  background: linear-gradient(currentColor, currentColor) no-repeat left 85% / 0% 1px;
+  transition:
+    background-size var(--dur-med) var(--ease-out),
+    padding-left var(--dur-med) var(--ease-out);
+}
+
 .col a:hover,
 .legal a:hover {
-  text-decoration: underline;
+  background-size: 100% 1px;
+  padding-left: 6px;
 }
 
 .bottom {

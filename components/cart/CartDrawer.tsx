@@ -3,17 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { brandName, site } from "@/config/site";
-import { cutout } from "@/data/products";
+import { cutout, featuredIds, getProducts, type Product } from "@/data/products";
 import { formatPrice } from "@/lib/format";
 import { useModalDialog } from "@/lib/useModalDialog";
 import { CloseIcon } from "@/components/Icons";
 import { QuantitySelector } from "@/components/product/QuantitySelector";
 import { useCart } from "./CartContext";
+import { PlusIcon } from "@/components/Icons";
 import styles from "./CartDrawer.module.css";
 
 export function CartDrawer() {
   const { isOpen, closeCart, lines, count, subtotal, setQuantity, remove, announce } = useCart();
   const ref = useModalDialog(isOpen, closeCart);
+  const inCart = new Set(lines.map((l) => l.product.id));
+  const pool = lines.length ? lines.flatMap((l) => l.product.relatedIds) : featuredIds;
+  const suggestions = getProducts([...new Set(pool)].filter((id) => !inCart.has(id))).slice(0, 3);
 
   return (
     <dialog ref={ref} className={styles.drawer} aria-labelledby="cart-title">
@@ -34,6 +38,7 @@ export function CartDrawer() {
             <Link href="/shop" className="btn" onClick={closeCart}>
               Shop all appliances
             </Link>
+            <Suggestions title="Popular picks" items={suggestions} />
           </div>
         ) : (
           <>
@@ -83,6 +88,11 @@ export function CartDrawer() {
                   </li>
                 );
               })}
+              {suggestions.length > 0 && (
+                <li className={styles.suggestWrap}>
+                  <Suggestions title="Pairs nicely with" items={suggestions} />
+                </li>
+              )}
             </ul>
 
             <footer className={styles.footer}>
@@ -109,5 +119,41 @@ export function CartDrawer() {
         )}
       </div>
     </dialog>
+  );
+}
+
+function Suggestions({ title, items }: { title: string; items: Product[] }) {
+  const { add, announce, closeCart } = useCart();
+  if (!items.length) return null;
+  return (
+    <div className={styles.suggest}>
+      <p className={styles.suggestTitle}>{title}</p>
+      <ul>
+        {items.map((p) => (
+          <li key={p.id} className={styles.suggestItem}>
+            <span className={styles.suggestThumb} style={{ background: p.color.hex }}>
+              <Image src={cutout(p).src} alt="" width={56} height={56} sizes="56px" />
+            </span>
+            <Link href={`/shop/${p.slug}`} onClick={closeCart} className={styles.suggestName}>
+              {brandName(p.name)}
+              <span>
+                {p.type} · {formatPrice(p.price)}
+              </span>
+            </Link>
+            <button
+              type="button"
+              className={styles.suggestAdd}
+              onClick={() => {
+                add(p.id, 1);
+                announce(`${brandName(p.name)} added to cart.`);
+              }}
+              aria-label={`Add ${brandName(p.name)} to cart`}
+            >
+              <PlusIcon size={16} />
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

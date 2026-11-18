@@ -233,18 +233,44 @@
   opacity: 0.6;
 }
 
-.meta {
-  font-size: 0.92rem;
-  font-weight: 600;
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.3rem);
+  font-weight: 760;
+  font-stretch: 118%;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
-.metaType {
-  font-weight: 400;
-  opacity: 0.85;
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 0.86rem;
 }
 
 .metaPrice {
-  font-weight: 400;
+  font-weight: 650;
+  padding-left: 12px;
+  border-left: 1px solid currentColor;
+}
+
+.ctas {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.shopSolid {
+  background: var(--ink-c);
+  color: var(--hero-bg, var(--paper));
+  border-color: var(--ink-c);
+}
+
+.shopSolid:hover {
+  background: transparent;
+  color: var(--ink-c);
 }
 
 .shop {
@@ -386,12 +412,16 @@
     max-width: calc(100% - 132px);
   }
 
-  .meta {
-    font-size: 0.8rem;
+  .name {
+    font-size: 1.35rem;
   }
 
-  .metaType {
-    display: block;
+  .meta {
+    font-size: 0.76rem;
+  }
+
+  .ctas {
+    gap: 6px;
   }
 
   .shop {

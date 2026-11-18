@@ -34,8 +34,12 @@ export const site = {
   /** Slim bar above the header. Set `enabled: false` to hide it. */
   announcement: {
     enabled: true,
-    text: "Ten colors, one cheerful counter. Meet the full palette",
-    href: "/shop",
+    /** Rotates every few seconds; keep each message short and factual. */
+    messages: [
+      { text: "Ten colors, one cheerful counter — meet the full palette", href: "/shop" },
+      { text: "New: Crab Blue special-edition kettle in Cobalt", href: "/shop/crab-blue-special-edition-kettle" },
+      { text: "Pre-launch preview — save favourites to your wishlist", href: "/wishlist" },
+    ],
   },
 
   /** Default social-sharing image (1200 × 630). */

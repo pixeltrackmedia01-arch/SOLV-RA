@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { HeroSlider } from "@/components/home/HeroSlider";
-import { Marquee } from "@/components/home/Marquee";
-import { FeaturedProducts } from "@/components/home/FeaturedProducts";
-import { CategoryShelf } from "@/components/home/CategoryShelf";
-import { ColorStory } from "@/components/home/ColorStory";
-import { BrandStory } from "@/components/home/BrandStory";
+import { TrustBar } from "@/components/home/TrustBar";
+import { CategoryTiles } from "@/components/home/CategoryTiles";
+import { ProductTabs } from "@/components/home/ProductTabs";
+import { PromoSplit } from "@/components/home/PromoSplit";
+import { ImageBanner } from "@/components/home/ImageBanner";
+import { ShopByColor } from "@/components/home/ShopByColor";
 import { Spotlight } from "@/components/home/Spotlight";
+import { Lookbook } from "@/components/home/Lookbook";
+import { Marquee } from "@/components/home/Marquee";
+import { BrandStory } from "@/components/home/BrandStory";
 import { JournalPreview } from "@/components/home/JournalPreview";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 
@@ -17,12 +21,16 @@ export default function HomePage() {
   return (
     <>
       <HeroSlider />
-      <Marquee />
-      <FeaturedProducts />
-      <CategoryShelf />
-      <ColorStory />
-      <BrandStory />
+      <TrustBar />
+      <CategoryTiles />
+      <ProductTabs />
+      <PromoSplit />
+      <ImageBanner />
+      <ShopByColor />
       <Spotlight />
+      <Lookbook />
+      <Marquee />
+      <BrandStory />
       <JournalPreview />
       <NewsletterSection />
     </>

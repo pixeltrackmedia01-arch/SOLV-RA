@@ -3,8 +3,8 @@ import Link from "next/link";
 import { brandName } from "@/config/site";
 import { cutout, lifestyle, type Product } from "@/data/products";
 import { formatPrice } from "@/lib/format";
-import { ArrowRight } from "@/components/Icons";
 import { Swatch } from "./Swatch";
+import { CardActions } from "./CardActions";
 import styles from "./ProductCard.module.css";
 
 type Props = {
@@ -25,6 +25,7 @@ export function ProductCard({
   sizes = "(max-width: 600px) 50vw, (max-width: 1000px) 33vw, 25vw",
 }: Props) {
   const img = imageKind === "lifestyle" ? lifestyle(p) : cutout(p);
+  const alt2 = imageKind === "lifestyle" ? cutout(p) : lifestyle(p);
   const price = formatPrice(p.price);
   return (
     <article
@@ -41,10 +42,20 @@ export function ProductCard({
           priority={priority}
           className={styles.image}
         />
+        {imageKind === "cutout" && (
+          <Image
+            src={alt2.src}
+            alt=""
+            width={alt2.width}
+            height={alt2.height}
+            sizes={sizes}
+            loading="lazy"
+            className={styles.altImage}
+            aria-hidden="true"
+          />
+        )}
         {p.badge && <span className={styles.badge}>{p.badge}</span>}
-        <span className={styles.reveal} aria-hidden="true">
-          View details <ArrowRight size={16} />
-        </span>
+        <CardActions id={p.id} name={p.name} available={p.availability !== "sold-out"} />
       </div>
       <div className={styles.body}>
         <H className={styles.name}>

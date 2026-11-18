@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { categories, colorFamilies, products, type CategorySlug, type ColorFamily } from "@/data/products";
+import { categories, colorFamilies, priceBands, products, type CategorySlug, type ColorFamily, type PriceBand } from "@/data/products";
 import { ShopCatalog, type CatalogState, type SortKey } from "@/components/product/ShopCatalog";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import styles from "./shop.module.css";
@@ -24,9 +24,13 @@ export default async function ShopPage({ searchParams }: { searchParams: SP }) {
   const colors = one(sp.color)
     .split(",")
     .filter((c): c is ColorFamily => colorFamilies.some((f) => f.slug === c));
+  const prices = one(sp.price)
+    .split(",")
+    .filter((b): b is PriceBand => priceBands.some((x) => x.slug === b));
   const initial: CatalogState = {
     category: categories.some((c) => c.slug === cat) ? (cat as CategorySlug) : "all",
     colors,
+    prices,
     sort: sorts.includes(sort) ? sort : "featured",
     q: one(sp.q).slice(0, 80),
   };
@@ -34,16 +38,9 @@ export default async function ShopPage({ searchParams }: { searchParams: SP }) {
 
   return (
     <div className="container">
-      <header className={styles.head}>
+      <div className={styles.crumbs}>
         <Breadcrumbs crumbs={[{ name: "Home", href: "/" }, { name: "Shop", href: "/shop" }]} />
-        <h1 className={styles.title}>
-          The whole <span className="italic">palette.</span>
-        </h1>
-        <p className="lede">
-          Ten everyday appliances, ten signature colors. Filter by routine or by mood, then find the
-          one that earns a spot on your counter.
-        </p>
-      </header>
+      </div>
       <ShopCatalog key={key} products={products} initial={initial} />
     </div>
   );

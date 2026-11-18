@@ -1,12 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useId, useMemo, useState } from "react";
 import {
   categories,
   colorFamilies,
   featuredIds,
+  priceBands,
   type CategorySlug,
   type ColorFamily,
+  type PriceBand,
   type Product,
 } from "@/data/products";
 import { brandName } from "@/config/site";
@@ -17,9 +20,11 @@ import styles from "./ShopCatalog.module.css";
 
 export type SortKey = "featured" | "name" | "price-asc" | "price-desc";
 
+
 export type CatalogState = {
   category: CategorySlug | "all";
   colors: ColorFamily[];
+  prices: PriceBand[];
   sort: SortKey;
   q: string;
 };
@@ -35,6 +40,10 @@ function applyState(list: Product[], s: CatalogState) {
   let out = s.q ? searchProducts(list, s.q) : list.slice();
   if (s.category !== "all") out = out.filter((p) => p.category === s.category);
   if (s.colors.length) out = out.filter((p) => s.colors.includes(p.color.family));
+  if (s.prices.length)
+    out = out.filter((p) =>
+      priceBands.some((b) => s.prices.includes(b.slug) && p.price != null && p.price >= b.min && p.price <= b.max),
+    );
   const featuredRank = (p: Product) => {
     const i = featuredIds.indexOf(p.id);
     return i === -1 ? featuredIds.length + list.indexOf(p) : i;
@@ -59,11 +68,19 @@ function toQueryString(s: CatalogState) {
   const params = new URLSearchParams();
   if (s.category !== "all") params.set("category", s.category);
   if (s.colors.length) params.set("color", s.colors.join(","));
+  if (s.prices.length) params.set("price", s.prices.join(","));
   if (s.sort !== "featured") params.set("sort", s.sort);
   if (s.q) params.set("q", s.q);
   const str = params.toString();
   return str ? `?${str}` : "";
 }
+
+const BANNERS: Record<CatalogState["category"], { src: string; ink: string; bg: string }> = {
+  all: { src: "/images/banners/shop-all.webp", ink: "#1b1714", bg: "#EFE6D7" },
+  morning: { src: "/images/banners/cat-morning.webp", ink: "#1b1714", bg: "#F6C445" },
+  "mix-blend": { src: "/images/banners/cat-mix-blend.webp", ink: "#1b1714", bg: "#A8BE78" },
+  "cook-heat": { src: "/images/banners/cat-cook-heat.webp", ink: "#ffffff", bg: "#1F6663" },
+};
 
 export function ShopCatalog({ products, initial }: { products: Product[]; initial: CatalogState }) {
   const [state, setState] = useState<CatalogState>(initial);
@@ -81,7 +98,7 @@ export function ShopCatalog({ products, initial }: { products: Product[]; initia
   }, [state]);
 
   const update = (patch: Partial<CatalogState>) => setState((s) => ({ ...s, ...patch }));
-  const reset = () => setState({ category: "all", colors: [], sort: state.sort, q: "" });
+  const reset = () => setState({ category: "all", colors: [], prices: [], sort: state.sort, q: "" });
 
   const active: { key: string; label: string; clear: () => void }[] = [];
   if (state.q) active.push({ key: "q", label: `Search: “${state.q}”`, clear: () => update({ q: "" }) });
@@ -98,10 +115,40 @@ export function ShopCatalog({ products, initial }: { products: Product[]; initia
     });
   }
 
+  for (const b of state.prices) {
+    const band = priceBands.find((x) => x.slug === b);
+    active.push({
+      key: `price-${b}`,
+      label: band?.label ?? b,
+      clear: () => update({ prices: state.prices.filter((x) => x !== b) }),
+    });
+  }
+
   const filterCount = active.length;
+  const cat = categories.find((c) => c.slug === state.category);
+  const banner = BANNERS[state.category];
 
   return (
     <div className={styles.layout}>
+      <header className={styles.banner} style={{ color: banner.ink, background: banner.bg }}>
+        <Image
+          key={banner.src}
+          src={banner.src}
+          alt=""
+          width={2400}
+          height={860}
+          priority
+          sizes="(max-width: 1360px) 100vw, 1360px"
+          className={styles.bannerImg}
+        />
+        <div className={styles.bannerText}>
+          <p className={styles.bannerEyebrow}>Collection</p>
+          <h1 className={styles.bannerTitle}>{cat ? cat.name : "All appliances"}</h1>
+          <p className={styles.bannerBlurb}>
+            {cat ? cat.blurb : "Ten everyday appliances, ten signature colors. Filter by routine, color or price."}
+          </p>
+        </div>
+      </header>
       <div className={styles.toolbar}>
         <p className={styles.count} role="status" aria-live="polite" aria-atomic="true">
           <strong>{results.length}</strong> of {products.length} appliances
@@ -193,6 +240,31 @@ export function ShopCatalog({ products, initial }: { products: Product[]; initia
           </div>
         </fieldset>
 
+        <fieldset className={styles.fieldset}>
+          <legend>Price</legend>
+          <div className={styles.options}>
+            {priceBands.map((b) => {
+              const count = products.filter((p) => p.price != null && p.price >= b.min && p.price <= b.max).length;
+              return (
+                <label key={b.slug} className={styles.option}>
+                  <input
+                    type="checkbox"
+                    value={b.slug}
+                    checked={state.prices.includes(b.slug)}
+                    onChange={(e) =>
+                      update({
+                        prices: e.target.checked ? [...state.prices, b.slug] : state.prices.filter((x) => x !== b.slug),
+                      })
+                    }
+                  />
+                  <span>{b.label}</span>
+                  <span className={styles.optCount}>{count}</span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
+
         {filterCount > 0 && (
           <button type="button" className={`btn btn--ghost btn--block ${styles.resetSide}`} onClick={reset}>
             Reset filters
@@ -224,7 +296,7 @@ export function ShopCatalog({ products, initial }: { products: Product[]; initia
         {results.length > 0 ? (
           <ul className={styles.grid}>
             {results.map((p, i) => (
-              <li key={p.id}>
+              <li key={p.id} className={styles.gridItem} style={{ "--i": i } as React.CSSProperties}>
                 <ProductCard
                   product={p}
                   headingLevel="h2"

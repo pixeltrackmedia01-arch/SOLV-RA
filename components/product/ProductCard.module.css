@@ -49,38 +49,12 @@
   text-transform: uppercase;
 }
 
-.reveal {
-  position: absolute;
-  right: var(--space-3);
-  bottom: var(--space-3);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.45rem 0.75rem;
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 0.62rem;
-  font-weight: 650;
-  font-stretch: 112%;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity var(--dur-med) var(--ease-out),
-    transform var(--dur-med) var(--ease-out);
-}
 
 .card:hover .image,
 .card:focus-within .image {
   transform: scale(1.06) translateY(-2%);
 }
 
-.card:hover .reveal,
-.card:focus-within .reveal {
-  opacity: 1;
-  transform: none;
-}
 
 .body {
   display: grid;
@@ -150,8 +124,116 @@
   font-size: var(--text-lg);
 }
 
+
+/* Second photo: the product on a real counter, revealed on hover */
+.altImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 1200ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .card:hover .altImage {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Actions sit above the stretched link */
+.heart,
+.quickAdd {
+  position: absolute;
+  z-index: 2;
+}
+
+.heart {
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 252 246 / 0.92);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    color var(--dur-fast);
+}
+
+.heart:hover {
+  transform: scale(1.1);
+}
+
+.heartOn {
+  color: var(--crab);
+}
+
+.heartOn svg {
+  animation: heart-pop 420ms var(--ease-out);
+}
+
+@keyframes heart-pop {
+  40% {
+    transform: scale(1.35);
+  }
+}
+
+.quickAdd {
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.66rem;
+  font-weight: 650;
+  font-stretch: 112%;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out),
+    background-color var(--dur-fast);
+}
+
+.quickAdd:hover {
+  background: #000;
+}
+
+.card:hover .quickAdd,
+.card:focus-within .quickAdd {
+  opacity: 1;
+  transform: none;
+}
+
+/* Touch screens: compact always-visible "+" */
 @media (hover: none) {
-  .reveal {
-    display: none;
+  .quickAdd {
+    left: auto;
+    width: 44px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+    letter-spacing: 0;
+    opacity: 1;
+    transform: none;
   }
 }

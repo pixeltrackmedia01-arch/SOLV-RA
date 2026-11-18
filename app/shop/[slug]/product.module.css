@@ -242,3 +242,111 @@
     display: none;
   }
 }
+
+/* Accordion */
+.accordion {
+  border-top: 1px solid var(--ink);
+}
+
+.accordion details {
+  border-bottom: 1px solid var(--line);
+}
+
+.accordion summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+  font-size: 0.72rem;
+  font-weight: 650;
+  font-stretch: 112%;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion summary::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+  transition: transform var(--dur-med) var(--ease-out);
+}
+
+.accordion details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.accordion details > :not(summary) {
+  padding-bottom: var(--space-5);
+  animation: acc-in 400ms var(--ease-out);
+}
+
+@keyframes acc-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.accordion .about {
+  color: var(--ink-soft);
+}
+
+.accordion .about a {
+  font-weight: 600;
+}
+
+.box {
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 4px;
+  color: var(--ink-soft);
+}
+
+.palette {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.paletteLabel {
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.palette ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.paletteDot {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgb(27 23 20 / 0.2);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.paletteDot:hover {
+  transform: scale(1.18);
+}
+
+.paletteDot[aria-current="page"] {
+  box-shadow:
+    inset 0 0 0 1px rgb(27 23 20 / 0.2),
+    0 0 0 3px var(--paper),
+    0 0 0 4.5px var(--ink);
+}

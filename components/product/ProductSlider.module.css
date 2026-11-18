@@ -1,0 +1,276 @@
+.wrap {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--c);
+  container-type: size;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--c);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 47%;
+  transform: translateY(-60%);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 108%;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-align: center;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.shadow {
+  position: absolute;
+  left: 26%;
+  right: 26%;
+  bottom: 13%;
+  height: 5%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(40 25 15 / 0.28), transparent);
+  filter: blur(4px);
+}
+
+.product {
+  position: absolute;
+  left: 20%;
+  top: 17%;
+  width: 60%;
+  height: 68%;
+  object-fit: contain;
+  -webkit-user-drag: none;
+}
+
+.float {
+  position: absolute;
+}
+
+.floatA {
+  left: 1%;
+  top: 54%;
+  width: 24%;
+  height: 24%;
+}
+
+.floatB {
+  right: 2%;
+  top: 9%;
+  width: 20%;
+  height: 20%;
+}
+
+.corner {
+  right: -9%;
+  bottom: -11%;
+  width: 40%;
+  height: 40%;
+  filter: blur(10px);
+  opacity: 0.92;
+}
+
+.float img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  -webkit-user-drag: none;
+}
+
+.bob {
+  width: 100%;
+  height: 100%;
+  transform: rotate(var(--rot, 0deg));
+  animation: bob 4s ease-in-out infinite alternate;
+}
+
+@keyframes bob {
+  from {
+    transform: translateY(-1.2cqh) rotate(calc(var(--rot, 0deg) - 3deg));
+  }
+  to {
+    transform: translateY(1.2cqh) rotate(calc(var(--rot, 0deg) + 3deg));
+  }
+}
+
+.sparkle {
+  position: absolute;
+  color: #fff;
+}
+
+.sparkleA {
+  left: 20%;
+  top: 13%;
+  width: 6%;
+}
+
+.sparkleB {
+  right: 25%;
+  bottom: 21%;
+  width: 4.5%;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+.chip,
+.counter {
+  position: absolute;
+  padding: 7px 11px;
+  border-radius: var(--radius-sm);
+  background: rgb(255 252 246 / 0.94);
+  color: var(--ink);
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.chip {
+  left: 16px;
+  top: 16px;
+}
+
+.ui {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.ui button {
+  pointer-events: auto;
+}
+
+.counter {
+  right: 16px;
+  top: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.arrow {
+  position: absolute;
+  bottom: 16px;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 252 246 / 0.94);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--dur-fast), color var(--dur-fast);
+}
+
+.arrow:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.arrow svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.prev {
+  left: 16px;
+}
+
+.next {
+  right: 16px;
+}
+
+.thumbs {
+  list-style: none;
+  display: flex;
+  gap: var(--space-3);
+}
+
+.thumb {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.thumb img {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--c);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color var(--dur-fast), transform var(--dur-med) var(--ease-out);
+}
+
+.thumb:hover img {
+  transform: translateY(-3px);
+}
+
+.thumb[aria-pressed="true"] img {
+  outline-color: var(--ink);
+}
+
+.thumbLabel {
+  font-size: 0.6rem;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.thumb[aria-pressed="true"] .thumbLabel {
+  color: var(--ink);
+}
+
+@media (max-width: 600px) {
+  .thumb img {
+    width: 68px;
+    height: 68px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bob {
+    animation: none !important;
+    transform: rotate(var(--rot, 0deg));
+  }
+}
