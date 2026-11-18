@@ -23,9 +23,17 @@ You need Node 20 or newer.
 | Journal articles (sample content) | `data/journal.ts` |
 | Shipping / Returns / Contact / Privacy / Terms pages | `data/info.ts` |
 | Design tokens (colors, type scale, spacing, motion) | `app/globals.css` |
-| Fonts (self-hosted Fraunces + Figtree, OFL) | `app/fonts/` |
+| Fonts (self-hosted Archivo variable + Bodoni Moda italic, OFL) | `app/fonts/` |
+| Homepage hero slider: slides, words, companion pieces | `components/home/HeroSlider.tsx` |
+| Hero timeline (wipe curve, parallax factors, autoplay) | `components/home/HeroSliderClient.tsx` |
 
 Product names are stored without the brand prefix (`"Pop"`). The prefix comes from `site.shortName`, so if you rename the brand, every product name updates with it.
+
+## Homepage hero
+
+A full-screen colour slider. Each slide floods the screen with one product colour, puts a giant word behind the product, and floats companion appliances at different depths; the two in the corners are blurred. Changing slide plays a 970 ms panel wipe that follows a measured coverage curve. The outgoing slide drifts away while the incoming layers glide in with parallax, and the companions travel farther than the word.
+
+Controls: tabs, arrows, swipe, ←/→ keys, and a pause button. Autoplay runs every 4.8 s. It pauses for 6 s after any interaction, while keyboard focus is inside the hero, or when the hero is off screen. With reduced motion, slides swap instantly and nothing bobs.
 
 ## Product images
 

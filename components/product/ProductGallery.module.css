@@ -7,9 +7,7 @@
   position: relative;
   aspect-ratio: 1;
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(circle at 50% 60%, color-mix(in srgb, var(--tint) 40%, transparent) 0 44%, transparent 45%),
-    color-mix(in srgb, var(--tint) 18%, var(--paper));
+  background: color-mix(in srgb, var(--tint) 26%, var(--paper));
   overflow: hidden;
 }
 

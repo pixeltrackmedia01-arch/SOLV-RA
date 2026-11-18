@@ -11,22 +11,24 @@ import { JsonLd } from "@/components/JsonLd";
 import { organizationLd, websiteLd } from "@/lib/jsonld";
 import "./globals.css";
 
-const fraunces = localFont({
-  src: [
-    { path: "./fonts/Fraunces-Soft.woff2", style: "normal", weight: "100 900" },
-    { path: "./fonts/Fraunces-Italic.woff2", style: "italic", weight: "100 900" },
-  ],
-  variable: "--font-fraunces",
+const archivo = localFont({
+  src: "./fonts/Archivo-Variable.woff2",
+  weight: "100 900",
+  style: "normal",
+  variable: "--font-archivo",
   display: "swap",
-  fallback: ["Georgia", "serif"],
+  declarations: [{ prop: "font-stretch", value: "62% 125%" }],
+  fallback: ["Helvetica Neue", "Arial", "sans-serif"],
 });
 
-const figtree = localFont({
-  src: "./fonts/Figtree.woff2",
-  weight: "300 900",
-  variable: "--font-figtree",
+const bodoni = localFont({
+  src: "./fonts/BodoniModa-Italic.woff2",
+  weight: "400 900",
+  style: "italic",
+  variable: "--font-bodoni",
   display: "swap",
-  fallback: ["system-ui", "sans-serif"],
+  preload: false,
+  fallback: ["Didot", "Georgia", "serif"],
 });
 
 export const metadata: Metadata = {
@@ -50,14 +52,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBF5EA",
+  themeColor: "#F8F3EA",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${figtree.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${archivo.variable} ${bodoni.variable}`} suppressHydrationWarning>
       <head>
         {/* Enables progressive reveal animations only when JS is running. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

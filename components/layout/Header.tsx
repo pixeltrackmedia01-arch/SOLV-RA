@@ -4,11 +4,12 @@ import { CartButton } from "@/components/cart/CartButton";
 import { ShopMenu } from "./ShopMenu";
 import { MobileNav } from "./MobileNav";
 import { SearchDialog } from "./SearchDialog";
+import { HeaderShell } from "./HeaderShell";
 import styles from "./Header.module.css";
 
 export function Header() {
   return (
-    <header className={styles.header}>
+    <HeaderShell className={styles.header}>
       <div className={`container ${styles.bar}`}>
         <div className={styles.left}>
           <MobileNav />
@@ -36,6 +37,6 @@ export function Header() {
           <CartButton />
         </div>
       </div>
-    </header>
+    </HeaderShell>
   );
 }

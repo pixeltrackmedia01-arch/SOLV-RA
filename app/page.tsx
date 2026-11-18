@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/home/Hero";
+import { HeroSlider } from "@/components/home/HeroSlider";
+import { Marquee } from "@/components/home/Marquee";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { CategoryShelf } from "@/components/home/CategoryShelf";
 import { ColorStory } from "@/components/home/ColorStory";
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <HeroSlider />
+      <Marquee />
       <FeaturedProducts />
       <CategoryShelf />
       <ColorStory />

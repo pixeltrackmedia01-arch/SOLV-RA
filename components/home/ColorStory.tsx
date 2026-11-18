@@ -3,12 +3,11 @@ import { cutout, getProducts } from "@/data/products";
 import { ColorStoryClient, type Chapter } from "./ColorStoryClient";
 
 const STORY: { id: string; line: string }[] = [
-  { id: "pop-toaster", line: "A confident red for the first slice of the day." },
-  { id: "sunny-kettle", line: "Marigold: warm, golden and impossible to miss." },
-  { id: "splash-blender", line: "Lagoon Teal, cool and fresh beside the fruit bowl." },
-  { id: "whisk-stand-mixer", line: "A soft pistachio that feels at home on any counter." },
   { id: "brew-coffee-maker", line: "Powder Blue, for unhurried weekend pots." },
-  { id: "blue-kettle", line: "Cobalt, our special edition, for a bolder pour." },
+  { id: "crisp-air-fryer", line: "Deep Teal: grown-up, glossy and quietly bold." },
+  { id: "whip-hand-mixer", line: "Bubblegum Pink, because baking should be fun." },
+  { id: "reheat-microwave", line: "Warm Cream, the soft neutral that ties a counter together." },
+  { id: "rice-cooker", line: "Tangerine, a bright companion for everyday meals." },
 ];
 
 export function ColorStory() {

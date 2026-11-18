@@ -55,11 +55,11 @@ export function ColorStoryClient({ chapters }: { chapters: Chapter[] }) {
       <div className={`container ${styles.intro}`}>
         <p className="eyebrow">The palette</p>
         <h2 id="story-title" className={styles.title}>
-          Ten colors, each with a <span className="italic">personality.</span>
+          Five more shades, each with a <span className="italic">personality.</span>
         </h2>
         <p className="lede">
-          Scroll through a few favorites. Each appliance is made in one signature shade, so you can
-          match a set or mix a counter that feels like yours.
+          Each appliance is made in one signature shade, so you can match a set or mix a counter that
+          feels like yours.
         </p>
       </div>
 
